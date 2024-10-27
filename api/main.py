@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
+from fastapi import Form
 
 app = FastAPI()
 
@@ -11,7 +12,7 @@ async def read_root():
         <head>
             <title>Simple Calculator</title>
             <style>
-                body {
+                 body {
                     font-family: Arial, sans-serif;
                     background-color: #f4f4f4;
                     display: flex;
@@ -65,8 +66,8 @@ async def read_root():
         </head>
         <body>
             <div class="calculator">
-                <h1>Tan simple Calculator Load Test</h1>
-                <form action="/calculate" method="get">
+                <h1>Simple Calculator</h1>
+                <form action="/calculate" method="post">
                     <input type="text" name="num1" placeholder="Number 1" required>
                     <select name="operation" required>
                         <option value="+">+</option>
@@ -83,8 +84,8 @@ async def read_root():
     </html>
     """
 
-@app.get("/calculate")
-async def calculate(num1: float, operation: str, num2: float):
+@app.post("/calculate")
+async def calculate(num1: float = Form(...), operation: str = Form(...), num2: float = Form(...)):
     if operation == "+":
         result = num1 + num2
     elif operation == "-":
